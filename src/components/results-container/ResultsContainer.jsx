@@ -1,30 +1,14 @@
+import React, { useState, useRef, useEffect } from 'react';
 import HotelViewCard from 'components/hotel-view-card/HotelViewCard';
 import VerticalFilters from 'components/vertical-filters/VerticalFilters';
 import HotelViewCardSkeleton from 'components/hotel-view-card-skeleton/HotelViewCardSkeleton';
 import VerticalFiltersSkeleton from 'components/vertical-filters-skeleton/VerticalFiltersSkeleton';
 import EmptyHotelsState from 'components/empty-hotels-state/EmptyHotelsState';
-import { useRef, useState } from 'react';
-import useOutsideClickHandler from 'hooks/useOutsideClickHandler';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select';
+import useOutsideClickHandler from '../../hooks/useOutsideClickHandler';
 
-/**
- * ResultsContainer Component
- * Renders a container that displays hotel results, including hotel cards and filters.
- * It supports toggling of vertical filters and displays skeletons or empty states based on loading or data availability.
- *
- * @param {Object} props - Props for the component.
- * @param {Object} props.hotelsResults - Object containing hotel results data and loading state.
- * @param {boolean} props.enableFilters - Flag to enable or disable the filter feature.
- * @param {Array} props.filtersData - Array of filter data objects for the vertical filters.
- * @param {Array} props.selectedFiltersState - Array of selected filter states.
- * @param {Function} props.onFiltersUpdate - Callback function to handle filter updates.
- * @param {Function} props.onClearFiltersAction - Callback function to handle the action of clearing filters.
- * @param {Array} props.sortingFilterOptions - Array of sorting filter options.
- * @param {Object} props.sortByFilterValue - Object containing the selected sorting filter value.
- * @param {Function} props.onSortingFilterChange - Callback function to handle sorting filter changes.
- */
 const ResultsContainer = (props) => {
   const {
     hotelsResults,
@@ -38,11 +22,11 @@ const ResultsContainer = (props) => {
     onSortingFilterChange,
   } = props;
 
-  // Check if sorting filter is visible
   const isSortingFilterVisible =
     sortingFilterOptions && sortingFilterOptions.length > 0;
 
   const [isVerticalFiltersOpen, setIsVerticalFiltersOpen] = useState(false);
+  const [backgroundImage, setBackgroundImage] = useState('');
 
   const wrapperRef = useRef();
   const buttonRef = useRef();
@@ -54,15 +38,49 @@ const ResultsContainer = (props) => {
   });
 
   const toggleVerticalFiltersAction = () => {
-    // Toggle based on the current state
     setIsVerticalFiltersOpen((prevState) => !prevState);
   };
 
+  const ACCESS_KEY = '_BQAlmG3Vc8ddycWGV1CAqPwlxx1VWXB_6AtXhfSJWQ'; // Unsplash API key
+
+  // Function to fetch a random background image from Unsplash
+  const getRandomBackgroundImage = async () => {
+    try {
+      const response = await fetch(`https://api.unsplash.com/photos/random?client_id=${ACCESS_KEY}&count=1`);
+      const data = await response.json();
+
+      if (data && data.length > 0) {
+        const imageUrl = data[0].urls.full;
+        console.log('Fetched Background Image URL:', imageUrl);  // Debugging API response
+        setBackgroundImage(imageUrl); // Set the full-size image URL
+      } else {
+        console.log('No image found, setting fallback image.');
+        setBackgroundImage('https://source.unsplash.com/1600x900/?nature');  // Fallback image
+      }
+    } catch (error) {
+      console.error('Error fetching image:', error);
+      setBackgroundImage('https://source.unsplash.com/1600x900/?nature');  // Fallback image
+    }
+  };
+
+  useEffect(() => {
+    getRandomBackgroundImage(); // Fetch background image on component mount
+  }, []);
+
   return (
-    <div className="relative">
-      <div className="flex gap-x-0 md:gap-x-4 items-start mx-2">
+    <div
+      className="relative min-h-screen py-10 bg-cover bg-center"
+      style={{
+        backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'none',
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+      }}
+    >
+      <div className="absolute top-0 left-0 w-full h-full bg-black opacity-40"></div>
+
+      <div className="relative z-10 flex gap-x-0 md:gap-x-4 items-start mx-2 px-4 md:px-10">
         {enableFilters && selectedFiltersState.length > 0 && (
-          <div ref={wrapperRef}>
+          <div ref={wrapperRef} className="z-10">
             <VerticalFilters
               filtersData={selectedFiltersState}
               onFiltersUpdate={onFiltersUpdate}
@@ -72,15 +90,14 @@ const ResultsContainer = (props) => {
           </div>
         )}
         {enableFilters && filtersData.isLoading && <VerticalFiltersSkeleton />}
-        <div className="flex flex-col w-full items-start">
+        <div className="flex flex-col w-full items-start text-white">
           <div className="flex w-full justify-between px-2 md:px-0">
             {enableFilters && (
               <div className="vertical-filters__toggle-menu block md:hidden">
                 <button
                   ref={buttonRef}
-                  data-testid="vertical-filters__toggle-menu"
                   onClick={toggleVerticalFiltersAction}
-                  className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 font-medium rounded text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300"
                 >
                   <FontAwesomeIcon icon={faFilter} size="sm" className="mr-1" />{' '}
                   Filters
@@ -92,11 +109,11 @@ const ResultsContainer = (props) => {
                 value={sortByFilterValue}
                 onChange={onSortingFilterChange}
                 options={sortingFilterOptions}
-                className="mb-2 w-[180px] text-sm"
+                className="mb-2 w-[180px] text-sm border rounded-md border-gray-300"
               />
             )}
           </div>
-          <div className="hotels-results__container mx-2 md:mx-0 flex flex-col gap-y-2 w-full">
+          <div className="hotels-results__container mx-2 md:mx-0 flex flex-col gap-y-6 w-full">
             {hotelsResults.isLoading ? (
               Array.from({ length: 5 }, (_, index) => (
                 <HotelViewCardSkeleton key={index} />
@@ -112,6 +129,7 @@ const ResultsContainer = (props) => {
                   benefits={hotel.benefits}
                   ratings={hotel.ratings}
                   price={hotel.price}
+                  className="hover:shadow-lg transition-all duration-300 transform hover:scale-105"
                 />
               ))
             ) : (

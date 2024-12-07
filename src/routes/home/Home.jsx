@@ -1,49 +1,29 @@
-import HeroCover from './components/hero-cover/HeroCover';
-import PopularLocations from './components/popular-locations/popular-locations';
-import { networkAdapter } from 'services/NetworkAdapter';
-import { useState, useEffect, useCallback } from 'react';
-import { MAX_GUESTS_INPUT_VALUE } from 'utils/constants';
-import ResultsContainer from 'components/results-container/ResultsContainer';
-import { formatDate } from 'utils/date-helpers';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import _debounce from 'lodash/debounce';
 
-/**
- * Home component that renders the main page of the application.
- * It includes a navigation bar, hero cover, popular locations, results container, and footer.
- */
+import HeroCover from './components/hero-cover/HeroCover';
+import PopularLocations from './components/popular-locations/popular-locations';
+import ResultsContainer from '../../components/results-container/ResultsContainer'; // Updated path
+import { networkAdapter } from 'services/NetworkAdapter';
+import { MAX_GUESTS_INPUT_VALUE } from 'utils/constants';
+import { formatDate } from 'utils/date-helpers';
+
 const Home = () => {
   const navigate = useNavigate();
 
-  // State variables
   const [isDatePickerVisible, setisDatePickerVisible] = useState(false);
   const [locationInputValue, setLocationInputValue] = useState('pune');
   const [numGuestsInputValue, setNumGuestsInputValue] = useState('');
-  const [popularDestinationsData, setPopularDestinationsData] = useState({
-    isLoading: true,
-    data: [],
-    errors: [],
-  });
-  const [hotelsResults, setHotelsResults] = useState({
-    isLoading: true,
-    data: [],
-    errors: [],
-  });
-
-  // State for storing available cities
+  const [popularDestinationsData, setPopularDestinationsData] = useState({ isLoading: true, data: [], errors: [] });
+  const [hotelsResults, setHotelsResults] = useState({ isLoading: true, data: [], errors: [] });
   const [availableCities, setAvailableCities] = useState([]);
-
   const [filteredTypeheadResults, setFilteredTypeheadResults] = useState([]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debounceFn = useCallback(_debounce(queryResults, 1000), []);
+  const debounceFn = _debounce(queryResults, 1000);
 
   const [dateRange, setDateRange] = useState([
-    {
-      startDate: null,
-      endDate: null,
-      key: 'selection',
-    },
+    { startDate: null, endDate: null, key: 'selection' }
   ]);
 
   const onDatePickerIconClick = () => {
@@ -52,16 +32,9 @@ const Home = () => {
 
   const onLocationChangeInput = async (newValue) => {
     setLocationInputValue(newValue);
-    // Debounce the queryResults function to avoid making too many requests
     debounceFn(newValue, availableCities);
   };
 
-  /**
-   * Queries the available cities based on the user's input.
-   * @param {string} query - The user's input.
-   * @returns {void}
-   *
-   */
   function queryResults(query, availableCities) {
     const filteredResults = availableCities.filter((city) =>
       city.toLowerCase().includes(query.toLowerCase())
@@ -82,11 +55,6 @@ const Home = () => {
     setDateRange([ranges.selection]);
   };
 
-  /**
-   * Handles the click event of the search button.
-   * It gathers the number of guests, check-in and check-out dates, and selected city
-   * from the component's state, and then navigates to the '/hotels' route with this data.
-   */
   const onSearchButtonAction = () => {
     const numGuest = Number(numGuestsInputValue);
     const checkInDate = formatDate(dateRange[0].startDate) ?? '';
@@ -103,20 +71,11 @@ const Home = () => {
   };
 
   useEffect(() => {
-    /**
-     * Fetches initial data for the Home route.
-     * @returns {Promise<void>} A promise that resolves when the data is fetched.
-     */
     const getInitialData = async () => {
-      const popularDestinationsResponse = await networkAdapter.get(
-        '/api/popularDestinations'
-      );
-      const hotelsResultsResponse =
-        await networkAdapter.get('/api/nearbyHotels');
+      const popularDestinationsResponse = await networkAdapter.get('/api/popularDestinations');
+      const hotelsResultsResponse = await networkAdapter.get('/api/nearbyHotels');
+      const availableCitiesResponse = await networkAdapter.get('/api/availableCities');
 
-      const availableCitiesResponse = await networkAdapter.get(
-        '/api/availableCities'
-      );
       if (availableCitiesResponse) {
         setAvailableCities(availableCitiesResponse.data.elements);
       }
@@ -128,6 +87,7 @@ const Home = () => {
           errors: popularDestinationsResponse.errors,
         });
       }
+
       if (hotelsResultsResponse) {
         setHotelsResults({
           isLoading: false,
@@ -162,7 +122,7 @@ const Home = () => {
           </h2>
           <ResultsContainer
             hotelsResults={hotelsResults}
-            enableFilters={false}
+            enableFilters={false} // Updated to match the correct prop
           />
         </div>
       </div>

@@ -58,7 +58,7 @@ const BookingConfirmation = () => {
       </div>
       <div
         ref={contentToPrint}
-        className="flex mx-2  px-4 py-12 items-center justify-center flex-col border rounded-md"
+        className="flex mx-2 px-4 py-12 items-center justify-center flex-col border rounded-md"
       >
         <div className="flex items-center justify-center mb-2">
           <FontAwesomeIcon icon={faStar} className="text-brand text-xl" />
@@ -69,7 +69,7 @@ const BookingConfirmation = () => {
         </div>
         <h1 className="text-gray-700 text-2xl font-bold">Booking Confirmed</h1>
         <p className="text-gray-600 mt-2">
-          Thank you for your booking! Your reservation has been confirmed.
+          Thank you for your booking with <span className="text-brand">EZstay</span>! Your reservation has been confirmed.
         </p>
         <p className="text-gray-600">
           Please check your email for the booking details and instructions for

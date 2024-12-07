@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const FooterLink = ({ to, label }) => (
   <Link
     to={to}
-    className="block text-slate-700 hover:text-brand transition-colors duration-300"
+    className="block text-gray-300 hover:text-emerald-500 transition-colors duration-300"
   >
     {label}
   </Link>
@@ -12,38 +12,44 @@ const FooterLink = ({ to, label }) => (
 
 const GlobalFooter = () => {
   return (
-    <footer className="bg-slate-50 text-slate-700 mt-6">
-      <div className="container mx-auto px-6 py-6">
-        <div className="flex flex-wrap justify-between">
-          <div className="w-full md:w-1/3 mb-6 md:mb-0">
-            <h4 className="font-bold text-lg mb-2">Company Info</h4>
+    <footer className="bg-gray-900 text-gray-300 py-12">
+      <div className="container mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h4 className="font-bold text-lg mb-4 text-emerald-500">
+              Company Info
+            </h4>
             <FooterLink to="/about-us" label="About Us" />
             <FooterLink to="/" label="Contact" />
             <FooterLink to="/" label="Privacy Policy" />
           </div>
-          <div className="w-full md:w-1/3 mb-6 md:mb-0">
-            <h4 className="font-bold text-lg mb-2">Support</h4>
+          <div>
+            <h4 className="font-bold text-lg mb-4 text-emerald-500">Support</h4>
             <FooterLink to="/" label="FAQs" />
           </div>
-          <div className="w-full md:w-1/3 mb-6 md:mb-0">
-            <h4 className="font-bold text-lg mb-2">Newsletter</h4>
+          <div>
+            <h4 className="font-bold text-lg mb-4 text-emerald-500">
+              Newsletter
+            </h4>
             <p>Stay updated with our latest trends</p>
-            <form>
+            <form className="mt-4">
               <input
                 type="email"
                 placeholder="Enter email"
-                className="p-2 rounded"
+                className="p-2 rounded bg-gray-800 text-white placeholder-gray-400"
               />
-              <button className="ml-2 p-2 bg-brand text-white rounded">
+              <button className="ml-2 px-4 py-2 bg-emerald-500 text-white rounded">
                 Subscribe
               </button>
             </form>
           </div>
         </div>
         <div className="text-center mt-10">
-          <p>Designed and styled by izoogood</p>
-          <p>
-            &copy; {new Date().getFullYear()} izoogood. All rights reserved.
+          <p className="text-sm">
+            Designed with ❤️ by <span className="text-emerald-500">heyitsjeff</span>
+          </p>
+          <p className="text-sm">
+            &copy; {new Date().getFullYear()} EZstay. All rights reserved.
           </p>
         </div>
       </div>

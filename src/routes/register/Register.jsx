@@ -4,7 +4,7 @@ import { networkAdapter } from 'services/NetworkAdapter';
 import { useNavigate } from 'react-router-dom';
 import Toast from 'components/ux/toast/Toast';
 import { REGISTRATION_MESSAGES } from 'utils/constants';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Schemas from 'utils/validation-schemas';
 
 /**
@@ -76,6 +76,7 @@ const Register = () => {
                         autoComplete="given-name"
                         className={`${errors.firstName && touched.firstName ? 'border-red-500' : ''} border block w-full px-4 py-3 mb leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white`}
                       />
+                      <ErrorMessage name="firstName" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
                     <div className="w-full px-3 md:w-1/2">
                       <Field
@@ -84,6 +85,7 @@ const Register = () => {
                         autoComplete="family-name"
                         className={`${errors.lastName && touched.lastName ? 'border-red-500' : ''} border block w-full px-4 py-3 mb leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white`}
                       />
+                      <ErrorMessage name="lastName" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
                   </div>
                   <div className="mb-6">
@@ -93,6 +95,7 @@ const Register = () => {
                       autoComplete="email"
                       className={`${errors.email && touched.email ? 'border-red-500' : ''} border block w-full px-4 py-3 mb leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white`}
                     />
+                    <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
                   </div>
                   <div className="mb-6">
                     <Field
@@ -101,6 +104,7 @@ const Register = () => {
                       autoComplete="tel"
                       className={`${errors.phoneNumber && touched.phoneNumber ? 'border-red-500' : ''} border block w-full px-4 py-3 mb leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white`}
                     />
+                    <ErrorMessage name="phoneNumber" component="div" className="text-red-500 text-sm mt-1" />
                   </div>
                   <div className="mb-6">
                     <Field
@@ -109,6 +113,7 @@ const Register = () => {
                       autoComplete="new-password"
                       className={`${errors.password && touched.password ? 'border-red-500' : ''} border block w-full px-4 py-3 mb leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white`}
                     />
+                    <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
                   </div>
                   <div className="mb-6">
                     <Field
@@ -117,6 +122,7 @@ const Register = () => {
                       autoComplete="new-password"
                       className={`${errors.confirmPassword && touched.confirmPassword ? 'border-red-500' : ''} border block w-full px-4 py-3 mb leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white`}
                     />
+                    <ErrorMessage name="confirmPassword" component="div" className="text-red-500 text-sm mt-1" />
                   </div>
                   <div className="flex items-center w-full my-3">
                     <button
@@ -136,7 +142,7 @@ const Register = () => {
                     <Toast
                       type={toastType}
                       message={toastMessage}
-                      dismissError
+                      dismissError={() => setShowToast(false)}
                     />
                   )}
                 </div>

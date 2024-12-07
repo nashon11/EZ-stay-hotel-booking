@@ -65,19 +65,23 @@ const Login = () => {
 
   return (
     <>
-      <div className="login__form">
-        <div className="container mx-auto p-4 flex justify-center min-h-[600px] items-center">
+      <div className="login__form relative">
+        <div
+          className="container mx-auto p-4 flex justify-center min-h-[600px] items-center"
+          style={{
+            backgroundImage: 'url(https://source.unsplash.com/1600x900/?city)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-40"></div>
           <form
             onSubmit={handleLoginSubmit}
-            className="w-full max-w-lg p-4 md:p-10 shadow-md"
+            className="relative z-10 w-full max-w-lg p-4 md:p-10 shadow-md bg-white rounded-lg"
           >
             <div className="text-center mb-10">
-              <h2 className="text-3xl font-extrabold text-brand">
-                Welcome Back
-              </h2>
-              <p className="text-gray-500">
-                Log in to continue to your account
-              </p>
+              <h2 className="text-3xl font-extrabold text-brand">Welcome Back</h2>
+              <p className="text-gray-500">Log in to continue to your account</p>
             </div>
             <div className="mb-6">
               <input
@@ -129,7 +133,7 @@ const Login = () => {
                 <div className="absolute left-0 right-0 flex justify-center items-center">
                   <div className="border-t w-full absolute"></div>
                   <span className="bg-white px-3 text-gray-500 z-10">
-                    New to Stay Booker?
+                    EZstay
                   </span>
                 </div>
               </div>

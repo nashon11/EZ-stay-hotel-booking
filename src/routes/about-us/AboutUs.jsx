@@ -1,72 +1,81 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
-/**
- * AboutUs component
- * @returns {jsx}
- */
 const AboutUs = () => {
+  useEffect(() => {
+    AOS.init({ duration: 1200 });
+  }, []);
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-extrabold text-brand mb-2">About Us</h1>
-      <p className="text-lg mb-8">
-        Welcome to <span className="text-brand">STAY BOOKER</span>, where we are
-        dedicated to providing you with the best experience for booking hotels
-        around the world. Our mission is to make your travel comfortable,
-        convenient, and memorable.
-      </p>
-
-      <h2 className="text-3xl font-extrabold text-brand mb-2">Our Vision</h2>
-      <p className="text-lg mb-8">
-        At <span className="text-brand">STAY BOOKER</span>, we envision a world
-        where every traveler finds the perfect accommodation that suits their
-        needs and preferences. We aim to simplify the hotel booking process,
-        offering a wide range of options for every budget.
-      </p>
-
-      <h2 className="text-3xl font-extrabold text-brand mb-2">
-        Why Choose Us?
-      </h2>
-      <ul className="list-disc ml-6 mb-8">
-        <li className="text-lg mb-3">
-          We offer a diverse range of hotels, from luxury resorts to cozy
-          boutique stays, ensuring that you find the perfect match for your
-          travel style.
-        </li>
-        <li className="text-lg mb-3">
-          Our user-friendly interface makes it simple and quick to book your
-          ideal stay. With just a few clicks, you can secure your reservation
-          hassle-free.
-        </li>
-        <li className="text-lg mb-3">
-          Our dedicated customer support team is available 24/7 to assist you
-          with any inquiries or issues you may encounter during your booking
-          process or stay.
-        </li>
-        <li className="text-lg mb-3">
-          We prioritize the security of your personal information and
-          transactions. Book with confidence, knowing that your data is safe
-          with us.
-        </li>
-      </ul>
-
-      <h2 className="text-3xl font-extrabold text-brand mb-2">Contact Us</h2>
-      <p className="text-lg mb-4">
-        Have questions or need assistance? Feel free to reach out to our
-        customer support team at{' '}
-        <a
-          className="text-brand hover:underline"
-          href="mailto:info@staybooker.com"
+    <section className="relative bg-gradient-to-r from-indigo-900 via-gray-900 to-gray-900 text-white py-16">
+      <div className="absolute inset-0 bg-black opacity-40"></div>
+      <div className="relative container mx-auto px-6">
+        <h2
+          className="text-5xl font-extrabold text-center mb-8"
+          data-aos="fade-up"
         >
-          info@staybooker.com
-        </a>
-        . We're here to help!
-      </p>
-      <p className="text-lg">
-        Thank you for choosing <span className="text-brand">STAY BOOKER</span>.
-        We look forward to being your go-to platform for all your hotel booking
-        needs.
-      </p>
-    </div>
+          Welcome to <span className="text-emerald-400">EZstay</span>
+        </h2>
+
+        <p
+          className="text-lg text-center max-w-4xl mx-auto mb-12 leading-relaxed"
+          data-aos="fade-up"
+          data-aos-delay="200"
+        >
+          At <span className="text-emerald-400">EZstay</span>, we believe that
+          travel should be stress-free and luxurious. From business trips to
+          family vacations, our mission is to provide exceptional stays that
+          blend comfort, convenience, and sophistication.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Feature 1 */}
+          <div
+            className="p-6 bg-gray-800 rounded-lg shadow-lg transform hover:scale-105 transition-transform"
+            data-aos="zoom-in"
+          >
+            <h3 className="text-2xl font-bold mb-4 text-emerald-400">
+              Personalized Comfort
+            </h3>
+            <p>
+              Your stay, your way. Choose from a variety of accommodations
+              tailored to your unique needs.
+            </p>
+          </div>
+
+          {/* Feature 2 */}
+          <div
+            className="p-6 bg-gray-800 rounded-lg shadow-lg transform hover:scale-105 transition-transform"
+            data-aos="zoom-in"
+            data-aos-delay="200"
+          >
+            <h3 className="text-2xl font-bold mb-4 text-emerald-400">
+              Seamless Experience
+            </h3>
+            <p>
+              Our intuitive platform makes it easy to book your ideal stay with
+              just a few clicks.
+            </p>
+          </div>
+
+          {/* Feature 3 */}
+          <div
+            className="p-6 bg-gray-800 rounded-lg shadow-lg transform hover:scale-105 transition-transform"
+            data-aos="zoom-in"
+            data-aos-delay="400"
+          >
+            <h3 className="text-2xl font-bold mb-4 text-emerald-400">
+              Unmatched Support
+            </h3>
+            <p>
+              Our 24/7 support team ensures that every aspect of your stay is
+              smooth and memorable.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 
